@@ -1,0 +1,158 @@
+﻿
+
+
+* {
+    font-size: 20px;
+    padding: 0;
+    margin: 0;
+    color: black;
+    font-family: Verdana;
+    word-wrap: break-word;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 65px;
+    width: 100%;
+    background-color: #060829;
+    display: flex;
+    flex-direction: row;
+}
+
+.bigText {
+    font-size: 28px;
+    color: #090050cc;
+}
+
+.box {
+    max-width: 750px;
+    width: 100%;
+    background-color: #fffcf9;
+    border: 10px;
+    border-radius: 8px;
+    border-color: black;
+    padding: 15px;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    -webkit-box-shadow: 0px 0px 18px 4px #484848a3;   
+}
+
+article {
+    margin-top: 20px;
+    display: block;
+    padding: 10px;
+}
+
+body {
+    background-color: #ffffff;
+    color: orangered;
+}
+
+.a {
+    color: red;
+}
+
+footer {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    height: 55px;
+    width: 100%;
+    background-color: #060829;
+}
+
+#Authors {
+    color: wheat;
+    padding: 2px;
+    margin: 2px;
+    font-size: 14px;
+}
+
+.reference {
+    color: wheat;
+    font-size:inherit;
+}
+
+#asd {
+    color: chartreuse;
+}
+
+.boxConteiner {
+    box-sizing: border-box;
+    margin: 10px;
+    padding: 10px;
+    flex-direction: column;
+    display: flex;
+}
+
+#logoChelgu {
+    height: 85%;
+    margin-left: 15px;
+    margin-top: 5px;
+    max-width:80px;
+}
+#logoIIT {
+    height: 85%;
+    margin-left: 45px;
+    margin-top: 5px;
+    max-width:220px;
+}
+
+.ButtonReference {
+    padding: 15px;
+    margin: 15px;
+    background-color: #060829;
+    color: wheat;
+    text-decoration: none;
+    font-size: 20px;
+    border-radius: 4px;
+}
+.description{
+    padding:5px;
+    margin:auto;
+}
+.PhotoRederence {
+    text-decoration: none;
+    width: auto;
+}
+#UserInfo {
+    color: white;
+    margin-right: 5%;
+    margin-left: auto;
+    margin-top: 23px;
+    max-width: 250px;
+    width: auto;
+    word-wrap: normal;
+    font-size: 16px;
+}
+
+.ButtonReference:hover {
+    padding: 15px;
+    margin: 15px;
+    background-color: #171a65;
+    color: wheat;
+    text-decoration: none;
+    font-size: 20px;
+}
+#Logos {
+    width: 320px;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+}
+.BoxForButtons {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    height: auto;
+}
+#CreateAccount{
+    margin-left:2%;
+}
+#SignIn{
+    margin-right:2%
+}
