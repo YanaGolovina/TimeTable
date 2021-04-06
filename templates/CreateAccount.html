@@ -1,51 +1,20 @@
-﻿<!DOCTYPE html>
+﻿{% extends 'base.html' %}
 
-<html lang="ru" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="utf-8" />
-    <meta name="description" content="Something happens" />
-    <title>
-        Регистрация расписание ЧелГУ
-    </title>
-    <link href="StyleSheet1.css" rel="stylesheet" />
-</head>
-<body>
-    <header>
-        <nav id="NavHead" role="banner">
-            <div id="Logos">
-                <a href="https://www.csu.ru" target="_blank" title="Сайт ЧелГУ" class="PhotoRederence">
-                    <img id="logoChelgu" src="Logo.jpg" alt="Alternate Text" />
-                </a>
-                <a href="https://eu.iit.csu.ru/login/index.php" target="_blank" title="Мудл ИИТ" class="PhotoRederence">
-                    <img id="logoIIT" src="logo-iit2.png" alt="Alternate Text" />
-                </a>
-            </div>
-            <div id="UserInfo">
-                Вы не авторизованы
-            </div>
-        </nav>
-    </header>
-    <article>
-        <div class="boxConteiner">
-            <div class="box">
-                <h1 class="bigText"> Созданине нового аккаунта</h1>                                          
-            </div>
-        </div>      
-    </article>
-    <footer>
-        <div id="Authors">
-            Авторы:
-            <a href="https://vk.com/vlad7402" target="_blank" title="Front-end" class="reference">
-                Рытый Владислав
-            </a>,
-            <a href="https://vk.com/insalutary" target="_blank" title="Back-end" class="reference">
-                Головина Яна
-            </a>,
-            <a href="https://vk.com/sphinx_an" target="_blank" title="Manager" class="reference">
-                Ковыляева Анастасия
-            </a>.
-        </div>
-    </footer>
+{% block title%}
+Регистрация расписание ЧелГУ
+{% endblock %}
 
-</body>
-</html>
+{% block userinfo%}
+Вы не авторизованы
+{% endblock %}
+
+{% block article%}
+<div class="boxConteiner" xmlns="http://www.w3.org/1999/html">
+     <div class="box">
+         <h1 class="bigText"> Созданине нового аккаунта</h1>
+         </br>
+         <form>
+         </form>
+     </div>
+ </div>
+{% endblock %}

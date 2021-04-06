@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<html lang="ru" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Something happens" />
+    <title>
+        {% block title%}{% endblock %}
+    </title>
+    <link href="{{url_for('static', filename='css/StyleSheet1.css')}}" rel="stylesheet"/>
+</head>
+<body>
+    <header>
+        <nav id="NavHead">
+            <div id="Logos">
+                <a href="https://www.csu.ru" target="_blank" title="Сайт ЧелГУ" class="PhotoRederence">
+                    <img id="logoChelgu" src="{{url_for('static', filename='photos/LogoChelGU.jpg')}}" alt="Alternate Text" />
+                </a>
+                <a href="https://eu.iit.csu.ru/login/index.php" target="_blank" title="Мудл ИИТ" class="PhotoRederence">
+                    <img id="logoIIT" src="{{url_for('static', filename='photos/logo-iit2.png')}}" alt="Alternate Text" />
+                </a>
+            </div>
+            <div id="UserInfo">
+                {% block userinfo%}{% endblock %}
+            </div>
+        </nav>
+    </header>
+    <article>
+        {% block article %}{% endblock %}
+    </article>
+    <footer>
+        <div id="Authors">
+            Авторы:
+            <a href="https://vk.com/vlad7402" target="_blank" title="Front-end" class="reference">
+                Рытый Владислав
+            </a>,
+            <a href="https://vk.com/insalutary" target="_blank" title="Back-end" class="reference">
+                Головина Яна
+            </a>,
+            <a href="https://vk.com/sphinx_an" target="_blank" title="Manager" class="reference">
+                Ковыляева Анастасия
+            </a>.
+        </div>
+    </footer>
+</body>
+</html>
