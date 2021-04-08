@@ -10,11 +10,61 @@
 
 {% block article%}
 <div class="boxConteiner" xmlns="http://www.w3.org/1999/html">
-     <div class="box">
-         <h1 class="bigText"> Созданине нового аккаунта</h1>
-         </br>
-         <form>
-         </form>
-     </div>
+    <div class="box">
+        <h1 class="bigText"> Созданине нового аккаунта</h1>
+        <br>
+        <form class="form" id="UserTypeSelect">
+            <span> Выберете тип пользователя:</span>
+            <label for="Lead"> Староста </label>
+            <input type="radio" name="UserType" id="Lead" value="Староста" onclick="ShowLeadForm(this)">
+            <label for="Student"> Ученик </label>
+            <input type="radio" name="UserType" id="Student" value="Ученик" onclick="">
+            <input type="button" name="ContinueButton" value="Продолжить" onclick="" id="ContinueButton" class="ButtonReference" style="display:none">
+        </form>
+        <form class="form" id="LeadForm" style="display:none" onsubmit="return CheckLeadForm(this)" method="post">
+            <div class="inputLine">
+                <label for="firstName"> Введите Фамилию: </label>
+                <span class="inputFildContainer">
+                    <input type="text" name="firstName" id="firstName" placeholder="Иванов" class="inputFild"/>
+                </span>
+            </div>
+            <div class="inputLine">
+                <label for="name"> Введите имя: </label>
+                <span class="inputFildContainer">
+                    <input type="text" name="name" id="name" placeholder="Иван" class="inputFild"/>
+                </span>
+            </div>
+            <div class="inputLine">
+                <label for="group"> Введите наименование группы: </label>
+                <span class="inputFildContainer">
+                    <input type="text" name="group" id="group" placeholder="ПрИ-101" class="inputFild"/>
+                </span>
+            </div>
+            <div class="inputLine">
+                <label for="email"> Введите почту: </label>
+                <span class="inputFildContainer">
+                    <input type="email" name="email" id="email" placeholder="example@example.ex" class="inputFild"/>
+                </span>
+            </div>
+            <div class="inputLine">
+                <label for="pass"> Введите пароль: </label>
+                <span class="inputFildContainer">
+                    <input type="password" name="pass" id="pass" placeholder="********" class="inputFild"/>
+                </span>
+            </div>
+            <div class="inputLine">
+                <label for="repass"> Повтоите пароль: </label>
+                <span class="inputFildContainer">
+                    <input type="password" name="repass" id="repass" placeholder="********" class="inputFild"/>
+                </span>
+            </div>
+            <div class="error" id="error">
+            Текст ошибки
+            </div>
+            <input type="submit" name="SubmitButtonLead" value="Зарегистрироваться" id="SubmitButtonLead" class="ButtonReference">
+        </form>
+    </div>
  </div>
+
+<script src="{{url_for('static', filename='js/CreatingAccount.js')}}" charset="windows-1258"></script>
 {% endblock %}

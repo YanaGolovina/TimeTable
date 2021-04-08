@@ -1,7 +1,4 @@
-﻿
-
-
-* {
+﻿* {
     font-size: 20px;
     padding: 0;
     margin: 0;
@@ -154,5 +151,42 @@ footer {
     margin-left:2%;
 }
 #SignIn{
-    margin-right:2%
+    margin-right:2%;
+}
+form {
+    padding: 10px;
+    margin: 5px;
+    display:flex;
+    flex-direction:column;
+}
+#ContinueButton{
+    text-decoration: none;
+    border: none;
+    background-color:none;
+}
+    #ContinueButton:active {
+        text-decoration: none;
+        border: none;
+        background-color: none;
+    }
+#UserTypeSelect {
+    display: inline-block;
+    margin-left:20px;
+}
+.inputLine {
+    margin:15px;
+    display: flex;
+}
+.inputFildContainer {
+    margin-left: auto;
+}
+.inputFild{
+    width:auto;
+    margin-right:5px;
+    margin-left:auto;
+}
+.error {
+    margin: 15px;
+    color: red;
+    display: none;
 }
