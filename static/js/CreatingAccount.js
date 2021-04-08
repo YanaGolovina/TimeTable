@@ -60,9 +60,7 @@ function CheckLeadForm(element){
     else {
         console.log("pc ok")
     }
-
-
-    return false;
+    form.id = "form";
 }
 
 function CheckLenght(string, Mlenght, mlenght) {
