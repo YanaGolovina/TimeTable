@@ -3,6 +3,7 @@
     leadForm.style.display = "flex";   
 }
 function CheckLeadForm(element){
+    element.preventDefault();
     var form = document.getElementById('LeadForm');
     var error = document.getElementById('error');
 

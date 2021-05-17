@@ -21,7 +21,7 @@
             <input type="radio" name="UserType" id="Student" value="Ученик" onclick="">
             <input type="button" name="ContinueButton" value="Продолжить" onclick="" id="ContinueButton" class="ButtonReference" style="display:none">
         </form>
-        <form class="form" id="LeadForm" name="form" style="display:none" onsubmit="return CheckLeadForm(this)" method="post">
+        <form class="form" id="LeadForm" name="form" style="display:none" method="post">
             <div class="inputLine">
                 <label for="firstName"> Введите Фамилию: </label>
                 <span class="inputFildContainer">
@@ -61,7 +61,7 @@
             <div class="error" id="error">
             Текст ошибки
             </div>
-            <input type="submit" name="SubmitButtonLead" value="Зарегистрироваться" id="SubmitButtonLead" class="ButtonReference">
+            <input type="submit" name="SubmitButtonLead" value="Зарегистрироваться" id="SubmitButtonLead" class="ButtonReference" onclick="CheckLeadForm(this)">
         </form>
     </div>
  </div>

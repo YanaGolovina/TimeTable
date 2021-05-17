@@ -19,27 +19,23 @@ class Users(db.Model):
 
 
 @app.route('/')
+@app.route('/MainPage')
 def mainpage():
     return render_template("MainPage.html")
 
 
 @app.route('/CreateAccount', methods=['POST', 'GET'])
 def CreateAcccount():
-    if request.method == "post":
-        id = request.form['id']
+    if request.method == "POST":
         firstName = request.form['firstName']
         name = request.form['name']
         group = request.form['group']
         email = request.form['email']
-        password = request.form['password']
-
-        user = Users(id=id, firstName=firstName, name=name, group=group, email=email, password=password)
-        try:
-            db.session.add(user)
-            db.session.commit()
-            return redirect('/')
-        except:
-            return "somethig wrong"
+        password = request.form['pass']
+        user = Users(firstName=firstName, name=name, group=group, email=email, password=password)
+        db.session.add(user)
+        db.session.commit()
+        return render_template("MainPage.html")
     else:
         return render_template("CreateAccount.html")
 
