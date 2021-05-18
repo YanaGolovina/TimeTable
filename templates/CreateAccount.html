@@ -18,12 +18,11 @@
             <label for="Lead"> Староста </label>
             <input type="radio" name="UserType" id="Lead" value="Староста" onclick="ShowLeadForm(this)">
             <label for="Student"> Ученик </label>
-            <input type="radio" name="UserType" id="Student" value="Ученик" onclick="">
-            <input type="button" name="ContinueButton" value="Продолжить" onclick="" id="ContinueButton" class="ButtonReference" style="display:none">
+            <input type="radio" name="UserType" id="Student" value="Ученик" onclick="ShowStudentForm(this)">
         </form>
-        <form class="form" id="LeadForm" name="form" style="display:none" method="post">
+        <form class="form" id="Form" name="form" style="display:none" method="post">
             <div class="inputLine">
-                <label for="firstName"> Введите Фамилию: </label>
+                <label for="firstName"> Введите фамилию: </label>
                 <span class="inputFildContainer">
                     <input type="text" name="firstName" id="firstName" placeholder="Иванов" class="inputFild"/>
                 </span>
@@ -34,10 +33,20 @@
                     <input type="text" name="name" id="name" placeholder="Иван" class="inputFild"/>
                 </span>
             </div>
-            <div class="inputLine">
-                <label for="group"> Введите наименование группы: </label>
+            <div class="inputLine" id="LeadGroup" style="display:none">
+                <label for="Lgroup"> Введите наименование группы: </label>
                 <span class="inputFildContainer">
-                    <input type="text" name="group" id="group" placeholder="ПрИ-101" class="inputFild"/>
+                    <input type="text" name="group" id="Lgroup" placeholder="ПрИ-101" class="inputFild"/>
+                </span>
+            </div>
+            <div class="inputLine" id="StudentGroup" style="display:none">
+                <label for="Sgroup"> Выберете группу: </label>
+                <span class="inputFildContainer">
+                    <select id="Sgroup" size="3">
+                        {% for user in users %}
+                        <option value={{user.group}}>{{user.group}}</option>
+                        {% endfor %}
+                    </select>
                 </span>
             </div>
             <div class="inputLine">
@@ -58,10 +67,11 @@
                     <input type="password" name="repass" id="repass" placeholder="********" class="inputFild"/>
                 </span>
             </div>
+            <input type="number" id="userType" style="display:none">
             <div class="error" id="error">
             Текст ошибки
             </div>
-            <input type="submit" name="SubmitButtonLead" value="Зарегистрироваться" id="SubmitButtonLead" class="ButtonReference" onclick="CheckLeadForm(this)">
+            <input type="submit" name="SubmitButtonLead" value="Зарегистрироваться" id="SubmitButtonLead" class="ButtonReference" onclick="CheckRegistrationForm(this)">
         </form>
     </div>
  </div>

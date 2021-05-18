@@ -13,6 +13,7 @@ class Users(db.Model):
     group = db.Column(db.String(10), nullable=False)
     email = db.Column(db.String(50), nullable=False)
     password = db.Column(db.String(32), nullable=False)
+    userType = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return '<Users %r>' % self.id
@@ -32,16 +33,19 @@ def CreateAcccount():
         group = request.form['group']
         email = request.form['email']
         password = request.form['pass']
-        user = Users(firstName=firstName, name=name, group=group, email=email, password=password)
+        userType = request.form['userType']
+        user = Users(firstName=firstName, name=name, group=group, email=email, password=password, userType=userType)
         db.session.add(user)
         db.session.commit()
         return render_template("MainPage.html")
     else:
-        return render_template("CreateAccount.html")
+        users = Users.query.order_by(Users.id).all()
+        return render_template("CreateAccount.html", users=users)
 
 
 @app.route('/SignIn')
 def SignIn():
     return render_template("SignIn.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
