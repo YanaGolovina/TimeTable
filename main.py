@@ -27,6 +27,7 @@ def mainpage():
 
 @app.route('/CreateAccount', methods=['POST', 'GET'])
 def CreateAcccount():
+    users = Users.query.order_by(Users.id).all()
     if request.method == "POST":
         firstName = request.form['firstName']
         name = request.form['name']
@@ -34,18 +35,57 @@ def CreateAcccount():
         email = request.form['email']
         password = request.form['pass']
         userType = request.form['userType']
-        user = Users(firstName=firstName, name=name, group=group, email=email, password=password, userType=userType)
-        db.session.add(user)
-        db.session.commit()
-        return render_template("MainPage.html")
+        if CheckEmailExist(email):
+            return RenderCreateAccountPage(users, True, False)
+        elif CheckGroupExist(group) and userType == 1:
+            return RenderCreateAccountPage(users, False, True)
+        else:
+            user = Users(firstName=firstName, name=name, group=group, email=email, password=password, userType=userType)
+            db.session.add(user)
+            db.session.commit()
+            return render_template("MainPage.html")
     else:
-        users = Users.query.order_by(Users.id).all()
-        return render_template("CreateAccount.html", users=users)
+        return RenderCreateAccountPage(users, False, False)
 
 
 @app.route('/SignIn')
 def SignIn():
     return render_template("SignIn.html")
+
+
+def CheckEmailExist(email):
+    users = Users.query.order_by(Users.id).all()
+    emails = []
+    for user in users:
+        emails.append(user.email)
+    try:
+        emails.index(email)
+        return True
+    except:
+        return False
+
+
+def CheckGroupExist(group):
+    users = Users.query.order_by(Users.id).all()
+    groups = []
+    for user in users:
+        groups.append(user.group)
+    try:
+        groups.index(group)
+        return True
+    except:
+        return False
+
+
+def RenderCreateAccountPage(users, is_email_exist, is_group_exist):
+    groups = []
+    for group in users:
+        try:
+            groups.index(group.group)
+        except:
+            groups.append(group.group)
+    return render_template("CreateAccount.html", groups=groups, is_email_exist=is_email_exist, is_group_exist=is_group_exist)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

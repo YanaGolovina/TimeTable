@@ -26,6 +26,11 @@ function CheckRegistrationForm(element){
         PrintError("Все поля должны быть заполнены");
         return false;
     }
+     else if(document.getElementById('Student').checked && form.Sgroup.value == "0")
+    {
+        PrintError("Все поля должны быть заполнены");
+        return false;
+    }
     if (CheckLenght(form.firstName.value, 20, 2))
     {
         PrintError("Ваше имя слишком короткое или слишком длинное");
