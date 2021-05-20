@@ -40,7 +40,7 @@ function CheckRegistrationForm(element){
         PrintError("Ваша фамилия слишком короткая или слишком длинная");
         return false;
     }
-    if (CheckLenght(form.group.value, 10, 2)) {
+    if (CheckLenght(form.group.value, 10, 2) && document.getElementById('Lead').checked) {
         PrintError("Название группы слишком короткое или слишком длинное");
         return false;
     }
@@ -48,7 +48,7 @@ function CheckRegistrationForm(element){
         PrintError("Длинна пароля должна быть от 4 до 30 символов");
         return false;
     }
-    if (CheckLenght(form.pass.value != form.repass.value)) {
+    if (form.pass.value != form.repass.value) {
         PrintError("Пороли не совпадают");
         return false;
     }

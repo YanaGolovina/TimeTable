@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, make_response, session
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import LoginManager
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Users.db'
@@ -37,10 +39,10 @@ def CreateAcccount():
         userType = request.form['userType']
         if CheckEmailExist(email):
             return RenderCreateAccountPage(users, True, False)
-        elif CheckGroupExist(group) and userType == 1:
+        elif CheckGroupExist(group) and userType == "1":
             return RenderCreateAccountPage(users, False, True)
         else:
-            user = Users(firstName=firstName, name=name, group=group, email=email, password=password, userType=userType)
+            user = Users(firstName=firstName, name=name, group=group, email=email, password=generate_password_hash(password), userType=userType)
             db.session.add(user)
             db.session.commit()
             return render_template("MainPage.html")
