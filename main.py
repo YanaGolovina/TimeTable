@@ -1,12 +1,14 @@
-from flask import Flask, render_template, request, url_for, redirect, make_response, session
+from flask import Flask, render_template, request, url_for, redirect, make_response, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager
+from flask_login import LoginManager, UserMixin, login_manager, login_user
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+lmanager = LoginManager(app)
+
 
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -19,6 +21,16 @@ class Users(db.Model):
 
     def __repr__(self):
         return '<Users %r>' % self.id
+
+
+class User (db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    firstName = db.Column(db.String(20), nullable=False, unique=True)
+    name = db.Column(db.String(20), nullable=False)
+    group = db.Column(db.String(10), nullable=False)
+    email = db.Column(db.String(50), nullable=False)
+    password = db.Column(db.String(32), nullable=False)
+    userType = db.Column(db.Integer, nullable=False)
 
 
 @app.route('/')
@@ -50,9 +62,16 @@ def CreateAcccount():
         return RenderCreateAccountPage(users, False, False)
 
 
-@app.route('/SignIn')
+@app.route('/SignIn', methods=['POST', 'GET'])
 def SignIn():
-    return render_template("SignIn.html")
+    if request.method == "POST":
+        email = request.form['email']
+        password = request.form['pass']
+        user = User.query.filter_by(email=email)
+        if check_password_hash(user.password, password):
+
+    else:
+        return render_template("SignIn.html")
 
 
 def CheckEmailExist(email):
@@ -87,6 +106,11 @@ def RenderCreateAccountPage(users, is_email_exist, is_group_exist):
         except:
             groups.append(group.group)
     return render_template("CreateAccount.html", groups=groups, is_email_exist=is_email_exist, is_group_exist=is_group_exist)
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
 
 
 if __name__ == "__main__":
