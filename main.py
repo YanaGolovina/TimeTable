@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, url_for, redirect, make_response, session, flash
+from flask import current_app as app
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, UserMixin, login_manager, login_user
+from flask_login import LoginManager, UserMixin, login_manager, login_user, login_required, logout_user
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Users.db'
@@ -10,9 +11,9 @@ db = SQLAlchemy(app)
 lmanager = LoginManager(app)
 
 
-class Users(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    firstName = db.Column(db.String(20), nullable=False)
+    firstName = db.Column(db.String(20), nullable=False, unique=True)
     name = db.Column(db.String(20), nullable=False)
     group = db.Column(db.String(10), nullable=False)
     email = db.Column(db.String(50), nullable=False)
@@ -23,16 +24,6 @@ class Users(db.Model):
         return '<Users %r>' % self.id
 
 
-class User (db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    firstName = db.Column(db.String(20), nullable=False, unique=True)
-    name = db.Column(db.String(20), nullable=False)
-    group = db.Column(db.String(10), nullable=False)
-    email = db.Column(db.String(50), nullable=False)
-    password = db.Column(db.String(32), nullable=False)
-    userType = db.Column(db.Integer, nullable=False)
-
-
 @app.route('/')
 @app.route('/MainPage')
 def mainpage():
@@ -41,7 +32,7 @@ def mainpage():
 
 @app.route('/CreateAccount', methods=['POST', 'GET'])
 def CreateAcccount():
-    users = Users.query.order_by(Users.id).all()
+    users = User.query.order_by(User.id).all()
     if request.method == "POST":
         firstName = request.form['firstName']
         name = request.form['name']
@@ -54,10 +45,10 @@ def CreateAcccount():
         elif CheckGroupExist(group) and userType == "1":
             return RenderCreateAccountPage(users, False, True)
         else:
-            user = Users(firstName=firstName, name=name, group=group, email=email, password=generate_password_hash(password), userType=userType)
+            user = User(firstName=firstName, name=name, group=group, email=email, password=generate_password_hash(password), userType=userType)
             db.session.add(user)
             db.session.commit()
-            return render_template("MainPage.html")
+            return redirect(url_for('SignIn'))
     else:
         return RenderCreateAccountPage(users, False, False)
 
@@ -67,15 +58,23 @@ def SignIn():
     if request.method == "POST":
         email = request.form['email']
         password = request.form['pass']
-        user = User.query.filter_by(email=email)
-        if check_password_hash(user.password, password):
-
-    else:
+        if email and password:
+            user = User.query.filter_by(email=email).first()
+            if user and check_password_hash(user.password, password):
+                login_user(user)
+                flash('You were successfully logged in')
+                return redirect(url_for('mainpage'))
+            else:
+                flash('Неправильный логин или пароль')
+        else:
+            flash('Все поля должны быть заполнены')
+        return render_template("SignIn.html")
+    else:       
         return render_template("SignIn.html")
 
 
 def CheckEmailExist(email):
-    users = Users.query.order_by(Users.id).all()
+    users = User.query.order_by(User.id).all()
     emails = []
     for user in users:
         emails.append(user.email)
@@ -87,7 +86,7 @@ def CheckEmailExist(email):
 
 
 def CheckGroupExist(group):
-    users = Users.query.order_by(Users.id).all()
+    users = User.query.order_by(User.id).all()
     groups = []
     for user in users:
         groups.append(user.group)
@@ -108,10 +107,18 @@ def RenderCreateAccountPage(users, is_email_exist, is_group_exist):
     return render_template("CreateAccount.html", groups=groups, is_email_exist=is_email_exist, is_group_exist=is_group_exist)
 
 
-@login_manager.user_loader
+@app.login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
 
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('mainpage'))
+
+
 if __name__ == "__main__":
+    app.secret_key = 'some secret key'
     app.run(debug=True)
