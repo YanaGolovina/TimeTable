@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title%}
+Вход расписание ЧелГУ
+{% endblock %}
+
+{% block userinfo%}
+Вы не авторизованы
+{% endblock %}
+
+{% block article%}
+
+ <div class="boxConteiner">
+     <div class="box">
+         <h1 class="bigText" style="margin-left:15px"> Вход в учётную запись</h1>
+         {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class=flashes id="flashes">
+                    {% for message in messages %}
+                         <div class="error" id="error" style="display:flex">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+     </div>
+ </div>
+{% endblock %}

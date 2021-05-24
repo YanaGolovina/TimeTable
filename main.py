@@ -1,17 +1,16 @@
 from flask import Flask, render_template, request, url_for, redirect, make_response, session, flash
-from flask import current_app as app
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, UserMixin, login_manager, login_user, login_required, logout_user
+from flask_login import LoginManager, UserMixin, login_manager, login_user, login_required, logout_user, current_user
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Users.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-lmanager = LoginManager(app)
+login_manager = LoginManager(app)
 
 
-class User(db.Model, UserMixin):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     firstName = db.Column(db.String(20), nullable=False, unique=True)
     name = db.Column(db.String(20), nullable=False)
@@ -22,6 +21,9 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return '<Users %r>' % self.id
+
+    def is_authenticated(self):
+        return True
 
 
 @app.route('/')
@@ -62,14 +64,13 @@ def SignIn():
             user = User.query.filter_by(email=email).first()
             if user and check_password_hash(user.password, password):
                 login_user(user)
-                flash('You were successfully logged in')
-                return redirect(url_for('mainpage'))
+                return redirect(url_for('TimeTable'))
             else:
                 flash('Неправильный логин или пароль')
         else:
             flash('Все поля должны быть заполнены')
         return render_template("SignIn.html")
-    else:       
+    else:
         return render_template("SignIn.html")
 
 
@@ -107,9 +108,9 @@ def RenderCreateAccountPage(users, is_email_exist, is_group_exist):
     return render_template("CreateAccount.html", groups=groups, is_email_exist=is_email_exist, is_group_exist=is_group_exist)
 
 
-@app.login_manager.user_loader
+@login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(user_id)
+    return User.query.filter_by().first
 
 
 @app.route("/logout")
@@ -117,6 +118,12 @@ def load_user(user_id):
 def logout():
     logout_user()
     return redirect(url_for('mainpage'))
+
+@app.route("/TimeTable")
+@login_required
+def TimeTable():
+    user = current_user
+    return render_template("TimeTable.html")
 
 
 if __name__ == "__main__":
