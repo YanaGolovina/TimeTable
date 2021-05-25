@@ -11,8 +11,8 @@ login_manager = LoginManager(app)
 
 
 class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    firstName = db.Column(db.String(20), nullable=False, unique=True)
+    id = db.Column(db.Integer, primary_key=True, unique=True)
+    firstName = db.Column(db.String(20), nullable=False)
     name = db.Column(db.String(20), nullable=False)
     group = db.Column(db.String(10), nullable=False)
     email = db.Column(db.String(50), nullable=False)
@@ -110,7 +110,7 @@ def RenderCreateAccountPage(users, is_email_exist, is_group_exist):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.filter_by().first
+    return User.query.filter_by().first()
 
 
 @app.route("/logout")
@@ -122,8 +122,8 @@ def logout():
 @app.route("/TimeTable")
 @login_required
 def TimeTable():
-    user = current_user
-    return render_template("TimeTable.html")
+    flash(current_user.id)
+    return render_template("TimeTable.html", name=current_user.name)
 
 
 if __name__ == "__main__":
