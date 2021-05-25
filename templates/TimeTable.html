@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title%}
-Вход расписание ЧелГУ
+Расписание ЧелГУ
 {% endblock %}
 
 {% block userinfo%}
-{{name}}
+{{info}}
 {% endblock %}
 
 {% block article%}
@@ -13,15 +13,17 @@
  <div class="boxConteiner">
      <div class="box">
          <h1 class="bigText" style="margin-left:15px"> Вход в учётную запись</h1>
-         {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class=flashes id="flashes">
-                    {% for message in messages %}
-                         <div class="error" id="error" style="display:flex">{{ message }}</div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        {% endwith %}
      </div>
  </div>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class=flashes id="message_box">
+            <img id="message_cross" src="{{url_for('static', filename='photos/cross.png')}}" alt="Alternate Text" title="Закрыть сообщение" onclick="hide_message(this)" />
+            {% for message in messages %}
+                <div class="message" id="message">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+<script src="{{url_for('static', filename='js/TimeTable.js')}}" charset="windows-1258"></script>
 {% endblock %}

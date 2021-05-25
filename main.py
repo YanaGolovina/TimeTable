@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect, make_respo
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_manager, login_user, login_required, logout_user, current_user
+import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Users.db'
@@ -21,9 +22,6 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<Users %r>' % self.id
-
-    def is_authenticated(self):
-        return True
 
 
 @app.route('/')
@@ -63,7 +61,7 @@ def SignIn():
         if email and password:
             user = User.query.filter_by(email=email).first()
             if user and check_password_hash(user.password, password):
-                login_user(user)
+                login_user(user, True, datetime.timedelta(days=62))
                 return redirect(url_for('TimeTable'))
             else:
                 flash('Неправильный логин или пароль')
@@ -110,7 +108,7 @@ def RenderCreateAccountPage(users, is_email_exist, is_group_exist):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.filter_by().first()
+    return User.query.filter_by(id=user_id).first()
 
 
 @app.route("/logout")
@@ -119,11 +117,13 @@ def logout():
     logout_user()
     return redirect(url_for('mainpage'))
 
+
 @app.route("/TimeTable")
 @login_required
 def TimeTable():
-    flash(current_user.id)
-    return render_template("TimeTable.html", name=current_user.name)
+    info = current_user.name + ", " + current_user.group
+    flash("some textFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+    return render_template("TimeTable.html", info=info)
 
 
 if __name__ == "__main__":
