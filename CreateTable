@@ -1,0 +1,42 @@
+from prettytable import PrettyTable
+myNewTable = PrettyTable()
+myNewTable.field_names = ["Время пары", "Предмет","Аудитория", "Преподаватель"]
+
+def DaysInput():
+    i = 0
+    print("Если пар нет, дальше введи ноль")
+    number = input ("Сколько пар?")
+    if number == 0:
+        myNewTable.add_row(["В этот", "день пар", "нет. ", "Ура!!"])
+    else:
+        while i < number:
+            time = input ("Введи время пары")
+            lecture = input ("Введи название предмет")
+            door = input ("Введи номер аудитории")
+            teacher = input ("ФИО преподавателя")
+            myNewTable.add_row([time, lecture, door, teacher])
+
+def Day():
+    print("Понедельник")
+    myNewTable.add_row(["", "Понедельник", "", ""])
+    DaysInput()
+    print("Вторник")
+    myNewTable.add_row(["", "Вторник", "", ""])
+    DaysInput()
+    print("Среда")
+    myNewTable.add_row(["", "Среда", "", ""])
+    DaysInput()
+    print("Четверг")
+    myNewTable.add_row(["", "Четверг", "", ""])
+    DaysInput()
+    print("Пятница")
+    myNewTable.add_row(["", "Пятница", "", ""])
+    DaysInput()
+    print("Суббота")
+    myNewTable.add_row(["", "Суббота", "", ""])
+    DaysInput()
+    myNewTable.add_row(["", "Воскресенье", "", ""])
+    myNewTable.add_row(["В этот", "день пар", "нет. ", "Ура!!"])
+
+def PrintTable(myNewTable):
+  print(myNewTable)
